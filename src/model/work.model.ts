@@ -2,22 +2,11 @@ import { dbConnection } from "../config/migration";
 import Iwork from "../interface/work.interface";
 
 class Work {
-    protected title_work: string;
-    protected description_work: string;
-    protected file_url: string;
-    protected date: string;
 
-    constructor(title_work : string, description_work : string, file_url : string, date : string) {
-        this.title_work = title_work;
-        this.description_work = description_work;
-        this.file_url = file_url;
-        this.date = date;
-    }
-
-    async save() {
+    static async save(props : Iwork) {
         const insertToBD = `INSERT INTO Work (title_work , description_work , file_url ,date ) VALUES (?,?,?,?);`
         try {
-            await dbConnection.query(insertToBD, [this.title_work, this.description_work, this.file_url, this.date])
+            await dbConnection.query(insertToBD, [props.title_work, props.description_work, props.file_url, props.date])
         } catch (error) {
             console.log("Error saving Work" + error);
             return error
@@ -30,8 +19,8 @@ class Work {
             const [result]: any = await dbConnection.query(findbyId, [id_work]);
             return result.length > 0 ? result[0] : null;
         } catch (error) {
-            console.log("Error finding Work by ID: " + error);
-            throw error;
+            console.error("Error finding Work by ID: ", error);
+            throw new Error("Database query failed");
         }
     }
     
@@ -51,7 +40,7 @@ class Work {
     static async updateWorkById(id_work: number, props : Iwork) {
         const edittoDB = `UPDATE Work SET title_work = ?, description_work  = ?, file_url = ?, date = ? WHERE id_work = ?;`
         try {
-            const result = await Work.findbyId(id_work)
+            const result: Iwork | any = await Work.findbyId(id_work)
             if (result) {
                 props.title_work = props.title_work ? props.title_work : result.title_work
                 props.description_work = props.description_work ? props.description_work : result.description_work
