@@ -21,14 +21,14 @@ const saveWork  = async(req: Request,res : Response)=>{
 }
 
 const findWorkById = async (req: Request, res: Response) => {
-    const { id_work } = req.params;
+    const { id_Work } = req.params;
 
-    if (isNaN(+id_work)) {
+    if (isNaN(+id_Work)) {
         res.status(400).json({ status: "error", message: "Invalid ID format" });
     }
     else{
         try {
-            const result = await Work.findbyId(+id_work);
+            const result = await Work.findbyId(+id_Work);
             if (result) {
                 res.status(200).json({ status: "success", result: result });
             } else {
@@ -59,7 +59,11 @@ const deleteWorkById = async(req: Request,res : Response)=>{
 const updateWorkbyID = async(req: Request,res : Response)=>{
     const {id_Work} = req.params
     const {title_work, description_work, file_url, date} = req.body
-    const props ={title_work, description_work, file_url, date}
+    const props : Iwork ={ 
+        title_work: title_work, 
+        description_work: description_work, 
+        file_url: file_url, 
+        date: date}
     try {
         if(props){
             const isNotValid =  await Work.updateWorkById(+id_Work , props)
@@ -75,15 +79,17 @@ const updateWorkbyID = async(req: Request,res : Response)=>{
     }
 }
 
-const getALLWork= async(req: Request,res : Response)=>{
+const getALLWork = async (req: Request, res: Response) => {
     try {
         const result = await Work.getAllWork()
-        res.status(200).json({status : "success" , data : result})
+
+        res.status(200).json({ status: "success", data: result[0] })
     } catch (error) {
-        res.status(500).json({status :"error" , message : error})
+        res.status(500).json({ status: "error", message: error })
         console.log("error getting all Work " + error)
-        throw(error)
+        throw error;
     }
-}
+};
+
 
 export {saveWork,updateWorkbyID,findWorkById, deleteWorkById ,getALLWork}
