@@ -2,23 +2,30 @@ import Iwork from "../interface/work.interface";
 import Work from "../model/work.model";
 import { Request ,Response } from "express";
 
-const saveWork  = async(req: Request,res : Response)=>{
-    const {title_work, description_work, file_url, date} = req.body
-    const newWork : Iwork = {
-        date: date,
-        description_work: description_work,
-        title_work: title_work,
-        file_url: file_url
+const saveWork = async (req: Request, res: Response): Promise<void> => {
+    const { title_work, description_work, date } = req.body;
+    const file_url = req.file ? `/uploads/${req.file.filename}` : null;
+
+    if (!file_url) {
+        res.status(400).json({ status: "error", message: "Image file is required" });
+        return;
     }
+
     try {
-        await Work.save(newWork)
-        res.status(200).json({ status: "success"});
+        const newWork: Iwork = {
+            title_work,
+            description_work,
+            date,
+            file_url,
+        };
+
+        await Work.save(newWork);
+        res.status(200).json({ status: "success", message: "Work saved successfully" });
     } catch (error) {
-        res.status(500).json({status :"error" , message : error})
-        console.log("error saving Work " + error)
-        throw(error)   
+        console.error("Error saving work:", error);
+        res.status(500).json({ status: "error", message: error });
     }
-}
+};
 
 const findWorkById = async (req: Request, res: Response) => {
     const { id_Work } = req.params;

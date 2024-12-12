@@ -3,6 +3,7 @@ CREATE TABLE IF NOT EXISTS `Work` (
   `title_work` varchar(1000) DEFAULT NULL,
   `description_work` varchar(1000) DEFAULT NULL,
   `date` varchar(1000) DEFAULT NULL,
+  `type` varchar(100) NOT NULL,
   `file_url` varchar(500) DEFAULT NULL
 ) ENGINE=InnoDB;
 
