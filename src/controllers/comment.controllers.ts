@@ -17,5 +17,37 @@ class CommentController {
             res.status(500).json({ status: "error", message: error });
         }
     }
+
+    static async findById(req :Request , res: Response)
+    {
+        const {id_comment} = req.params
+        try {
+            const result : IComment | any = await CommentModel.getById(+id_comment)
+            if(result)
+            {
+                res.status(200).json({status : "success" , result})
+                return ;
+            }
+            res.status(400).json({status : "error" , result})
+        } catch (error) {
+            console.error("Error finding comment by id :", error);
+            res.status(500).json({ status: "error", message: error });
+        }
+    }
+    static async getAll(req :Request , res: Response)
+    {
+        try {
+            const result : IComment | any = await CommentModel.getAll()
+            if(result)
+            {
+                res.status(200).json({status : "success" ,result : result[0]})
+                return ;
+            }
+            res.status(400).json({status : "error" , result })
+        } catch (error) {
+            console.error("Error finding comment by id :", error);
+            res.status(500).json({ status: "error", message: error });
+        }
+    }
 }
 export default CommentController

@@ -12,6 +12,29 @@ class CommentModel{
             throw error;
         }
     }
+    static async getById(id_comment : number) : Promise<void>
+    {
+        const query : string = `SELECT * FROM Comment WHERE id_comment = ?;`;
+        try{
+            const result: IComment[] | any = await dbConnection.query(query , [id_comment])
+            return result.length > 0 ? result[0] : null;
+        }catch(error){
+            console.log("error geting comments : " + error);
+            throw error;
+        }
+    }
+
+    static async getAll() : Promise<void>
+    {
+        const query : string = `SELECT * FROM Comment;`;
+        try{
+            const result: IComment[] | any = await dbConnection.query(query )
+            return result
+        }catch(error){
+            console.log("error getinig comments : " + error);
+            throw error;
+        }
+    }
 }
 
 export default CommentModel;
