@@ -24,6 +24,20 @@ class CommentModel{
         }
     }
 
+    static async delById(id_comment  :number)
+    {
+        const query : string = `DELETE FROM Comment WHERE id_comment = ?;`;
+        console.log(id_comment);
+        
+
+        try{
+            await dbConnection.query(query , [id_comment])
+        }catch(error){
+            console.log("error geting comments : " + error);
+            throw error;
+        }
+    }
+
     static async getAll() : Promise<void>
     {
         const query : string = `SELECT * FROM Comment;`;

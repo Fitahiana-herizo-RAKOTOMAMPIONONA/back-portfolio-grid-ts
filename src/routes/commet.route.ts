@@ -7,5 +7,6 @@ const commentRoute = express.Router()
 commentRoute.post("/add", CommentController.saveComment)
 commentRoute.get("/all", CommentController.getAll)
 commentRoute.get("/find/:id_comment", CommentController.findById)
+commentRoute.delete("/delete/:id_comment" , CommentController.deleteById)
 
 export default commentRoute
