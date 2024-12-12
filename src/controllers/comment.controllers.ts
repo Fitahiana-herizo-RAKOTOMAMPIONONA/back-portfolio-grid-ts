@@ -34,6 +34,7 @@ class CommentController {
             res.status(500).json({ status: "error", message: error });
         }
     }
+
     static async getAll(req :Request , res: Response)
     {
         try {
@@ -49,6 +50,7 @@ class CommentController {
             res.status(500).json({ status: "error", message: error });
         }
     }
+
     static async deleteById(req :Request , res: Response){
         const {id_comment} = req.params;
     
@@ -57,6 +59,28 @@ class CommentController {
             if(result)
             {
                 await CommentModel.delById(+id_comment)
+                res.status(200).json({status : "success" ,result : result[0]})
+                return ;
+            }
+            res.status(400).json({status : "error" ,result : "user not found"})
+        } catch (error) {
+            console.error("Error deleting comment by id :", error);
+            res.status(500).json({ status: "error", message: error });
+        }
+    }
+
+    static async updateById(req :Request , res: Response){
+        const {id_comment} = req.params;
+        const {title_comment , content_comment , etoile} = req.body
+
+        const newComment: IComment | any = {title_comment , content_comment , etoile : +etoile} 
+        
+        try {
+            let result : IComment | any = await CommentModel.getById(+id_comment)
+            if(result.length > 0)
+            {
+                await CommentModel.updateById(+id_comment , newComment)
+                result  = await CommentModel.getById(+id_comment)
                 res.status(200).json({status : "success" ,result : result[0]})
                 return ;
             }

@@ -27,11 +27,19 @@ class CommentModel{
     static async delById(id_comment  :number)
     {
         const query : string = `DELETE FROM Comment WHERE id_comment = ?;`;
-        console.log(id_comment);
-        
-
         try{
             await dbConnection.query(query , [id_comment])
+        }catch(error){
+            console.log("error geting comments : " + error);
+            throw error;
+        }
+    }
+    static async updateById(id_comment  :number , props : IComment) : Promise<void>
+    {
+        const query : string = `UPDATE Comment SET title_comment = ? , content_comment = ?   WHERE id_comment = ?;`;
+        console.log(props.title_comment);
+        try{
+            dbConnection.query(query , [props.title_comment , props.content_comment , id_comment])
         }catch(error){
             console.log("error geting comments : " + error);
             throw error;
