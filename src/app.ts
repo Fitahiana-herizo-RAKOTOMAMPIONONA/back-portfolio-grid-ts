@@ -8,12 +8,12 @@ const app = express()
 app.use(express.json())
 
 app.use(cors({
-    origin: ["http://localhost:5173"], 
+    origin: ["http://localhost:5173"],
     methods: ["POST", "GET"],
-    credentials: true 
-})); 
+    credentials: true
+}));
 
 app.use('/uploads', express.static(path.join(__dirname, 'uploads')));
-app.use("/portfolio",generalRoutes)
+app.use("/portfolio", generalRoutes)
 
 export default app

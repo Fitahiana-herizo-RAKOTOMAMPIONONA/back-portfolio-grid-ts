@@ -3,7 +3,7 @@ import Iwork from "../interface/work.interface";
 
 class Work {
 
-    static async save(props : Iwork) {
+    static async save(props: Iwork) {
         const insertToBD = `INSERT INTO Work (title_work , description_work , file_url ,date ) VALUES (?,?,?,?);`
         try {
             await dbConnection.query(insertToBD, [props.title_work, props.description_work, props.file_url, props.date])
@@ -23,10 +23,10 @@ class Work {
             throw new Error("Database query failed");
         }
     }
-    
-    
 
-    static async deleteWorkbyID(id_work : number) {
+
+
+    static async deleteWorkbyID(id_work: number) {
         const deleteToDB = `DELETE FROM Work WHERE id_work = ?; `
         try {
             const result = await Work.findbyId(id_work)
@@ -37,7 +37,7 @@ class Work {
         }
     }
 
-    static async updateWorkById(id_work: number, props : Iwork) {
+    static async updateWorkById(id_work: number, props: Iwork) {
         const edittoDB = `UPDATE Work SET title_work = ?, description_work  = ?, file_url = ?, date = ? WHERE id_work = ?;`
         try {
             const result: Iwork | any = await Work.findbyId(id_work)
