@@ -19,18 +19,24 @@ export async function migrate(filename: string) {
 
     try {
         const query = await readFile(filename, { encoding: 'utf-8' })
-        const queryTab = query.split(';')
-        queryTab.pop()
+        const queryTab = query.split(';').filter(q => q.trim() !== '')
 
-        queryTab.forEach(async q => {
-            try { await dbConnection.query(q) }
-            catch (e) { console.log(e) }
-        })
+        for (const q of queryTab) {
+            try {
+                await dbConnection.query(q)
+            } catch (e) {
+                console.log('Error executing query:', q, e)
+            }
+        }
 
-        //await dbConnection.end()
+        await dbConnection.end()
 
         console.log('\n--- Migration Successful ---\n')
     } catch (e) {
-        console.log(e)
+        console.log('Migration failed:', e)
     }
 }
+
+
+
+migrate("./database.sql")
