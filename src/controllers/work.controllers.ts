@@ -3,7 +3,7 @@ import Work from "../model/work.model";
 import { Request ,Response } from "express";
 
 const saveWork = async (req: Request, res: Response): Promise<void> => {
-    const { title_work, description_work, date } = req.body;
+    const { title_work, description_work, date , type} = req.body;
     const file_url = req.file ? `/uploads/${req.file.filename}` : null;
 
     if (!file_url) {
@@ -13,12 +13,13 @@ const saveWork = async (req: Request, res: Response): Promise<void> => {
 
     try {
         const newWork: Iwork = {
-            title_work,
-            description_work,
-            date,
-            file_url,
+            title_work : title_work,
+            description_work : description_work,
+            date : date,
+            file_url : file_url,
+            type: type
         };
-
+        
         await Work.save(newWork);
         res.status(200).json({ status: "success", message: "Work saved successfully" });
     } catch (error) {
@@ -65,12 +66,14 @@ const deleteWorkById = async(req: Request,res : Response)=>{
 
 const updateWorkbyID = async(req: Request,res : Response)=>{
     const {id_Work} = req.params
-    const {title_work, description_work, file_url, date} = req.body
+    const {title_work, description_work, file_url, date , type} = req.body
     const props : Iwork ={ 
         title_work: title_work, 
         description_work: description_work, 
         file_url: file_url, 
-        date: date}
+        date: date,
+        type : type
+    }
     try {
         if(props){
             const isNotValid =  await Work.updateWorkById(+id_Work , props)
