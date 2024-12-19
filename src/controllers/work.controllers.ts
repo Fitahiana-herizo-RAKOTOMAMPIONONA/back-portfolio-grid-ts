@@ -13,11 +13,19 @@ const saveWork = async (req: Request, res: Response): Promise<void> => {
 
     try {
         const newWork: Iwork = {
-            title_work : title_work,
-            description_work : description_work,
-            date : date,
-            file_url : file_url,
-            type: type
+            title_work: title_work,
+            description_work: description_work,
+            date: date,
+            file_url: file_url,
+            type: type,
+            status: "",
+            team_members: [],
+            visibility: "",
+            technologies_used: [],
+            rating: 0,
+            client_name: "",
+            progress: 0,
+            tags: []
         };
         
         await Work.save(newWork);
@@ -67,12 +75,20 @@ const deleteWorkById = async(req: Request,res : Response)=>{
 const updateWorkbyID = async(req: Request,res : Response)=>{
     const {id_Work} = req.params
     const {title_work, description_work, file_url, date , type} = req.body
-    const props : Iwork ={ 
-        title_work: title_work, 
-        description_work: description_work, 
-        file_url: file_url, 
+    const props : Iwork ={
+        title_work: title_work,
+        description_work: description_work,
+        file_url: file_url,
         date: date,
-        type : type
+        type: type,
+        status: "",
+        team_members: [],
+        visibility: "",
+        technologies_used: [],
+        rating: 0,
+        client_name: "",
+        progress: 0,
+        tags: []
     }
     try {
         if(props){
