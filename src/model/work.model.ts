@@ -4,9 +4,9 @@ import Iwork from "../interface/work.interface";
 class Work {
 
     static async save(props: Iwork) {
-        const insertToBD = `INSERT INTO Work (title_work , description_work , file_url ,date ,type) VALUES (?,?,?,?,?);`
+        const insertToBD = `INSERT INTO Work (title_work , description_work , file_url ,date ,type ,client_name , progress , technologies_used) VALUES (?,?,?,?,?,?,?,?);`
         try {
-            await dbConnection.query(insertToBD, [props.title_work, props.description_work, props.file_url, props.date, props.type])
+            await dbConnection.query(insertToBD, [props.title_work, props.description_work, props.file_url, props.date, props.type , props.client_name , props.progress, props.technologies_used])
         } catch (error) {
             console.log("Error saving Work" + error);
             return error

@@ -1,16 +1,19 @@
+import { log } from "console";
 import Iwork from "../interface/work.interface";
 import Work from "../model/work.model";
 import { Request ,Response } from "express";
 
-const saveWork = async (req: Request, res: Response): Promise<void> => {
-    const { title_work, description_work, date , type} = req.body;
-    const file_url = req.file ? `/uploads/${req.file.filename}` : null;
 
+
+const saveWork = async (req: Request, res: Response): Promise<void> => {
+    const { title_work, description_work, date , type ,progress ,technologies_used ,client_name} = req.body;
+    const file_url = req.file ? `/uploads/${req.file.filename}` : null;
+    console.log();
+    
     if (!file_url) {
         res.status(400).json({ status: "error", message: "Image file is required" });
         return;
     }
-
     try {
         const newWork: Iwork = {
             title_work: title_work,
@@ -21,13 +24,12 @@ const saveWork = async (req: Request, res: Response): Promise<void> => {
             status: "",
             team_members: [],
             visibility: "",
-            technologies_used: [],
+            technologies_used: technologies_used.trim(),
             rating: 0,
-            client_name: "",
-            progress: 0,
+            client_name: client_name,
+            progress: progress,
             tags: []
         };
-        
         await Work.save(newWork);
         res.status(200).json({ status: "success", message: "Work saved successfully" });
     } catch (error) {
@@ -44,7 +46,8 @@ const findWorkById = async (req: Request, res: Response) => {
     }
     else{
         try {
-            const result = await Work.findbyId(+id_Work);
+            const result:Iwork | any = await Work.findbyId(+id_Work);
+            result.technologies_used = result.technologies_used.trim().split(";")
             if (result) {
                 res.status(200).json({ status: "success", result: result });
             } else {
@@ -108,7 +111,6 @@ const updateWorkbyID = async(req: Request,res : Response)=>{
 const getALLWork = async (req: Request, res: Response) => {
     try {
         const result = await Work.getAllWork()
-
         res.status(200).json({ status: "success", data: result[0] })
     } catch (error) {
         res.status(500).json({ status: "error", message: error })
