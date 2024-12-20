@@ -13,7 +13,7 @@ CREATE TABLE IF NOT EXISTS `Work` (
   `progress` int DEFAULT 0 CHECK (`progress` BETWEEN 0 AND 100),
   `client_name` varchar(500) DEFAULT NULL,
   `team_members` text DEFAULT NULL,
-  `visibility` varchar(50) DEFAULT 'public',
+  `visibility` int DEFAULT 0 CHECK (`visibility` BETWEEN 0 AND 100),
   `technologies_used` text DEFAULT NULL,
   `rating` int DEFAULT NULL CHECK (`rating` BETWEEN 1 AND 5),
   PRIMARY KEY (`id_work`)

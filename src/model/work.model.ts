@@ -56,7 +56,7 @@ class Work {
     }
 
     static async getAllWork() {
-        const getall = `SELECT * FROM Work;`
+        const getall = `SELECT * FROM Work ORDER BY visibility DESC;`
         try {
             const result: any = await dbConnection.query(getall)
             return result;
