@@ -36,7 +36,3 @@ export async function migrate(filename: string) {
         console.log('Migration failed:', e)
     }
 }
-
-
-
-migrate("./database.sql")

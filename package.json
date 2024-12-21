@@ -8,7 +8,8 @@
     "dev": "nodemon --watch src --exec ts-node src/server.ts",
     "build": "tsc",
     "start": "node dist/server.js",
-    "db:init" : "ts-node src/config/migration.ts"
+    "db:init" : "ts-node src/config/run.db.ts",
+    "db:debut" : "node dist/config/run.db.js"
   },
   "keywords": [],
   "author": "",
