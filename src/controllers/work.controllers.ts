@@ -47,7 +47,7 @@ const findWorkById = async (req: Request, res: Response) => {
     else{
         try {
             const result:Iwork | any = await Work.findbyId(+id_Work);
-            result.technologies_used = result.technologies_used.trim().split(";")
+            if ( result.technologies_used != null) result.technologies_used = result.technologies_used.trim().split(";")
             if (result) {
                 res.status(200).json({ status: "success", result: result });
             } else {
