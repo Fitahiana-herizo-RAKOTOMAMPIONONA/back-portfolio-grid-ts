@@ -14,6 +14,7 @@ app.use(cors({
 }));
 
 app.use('/portfolio/uploads', express.static('uploads'));
+app.use('/portfolio/public', express.static('public'));
 app.use("/portfolio", generalRoutes)
 
 export default app
