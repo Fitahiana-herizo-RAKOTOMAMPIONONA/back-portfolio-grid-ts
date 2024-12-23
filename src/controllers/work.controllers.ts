@@ -1,4 +1,3 @@
-import { log } from "console";
 import Iwork from "../interface/work.interface";
 import Work from "../model/work.model";
 import { Request ,Response } from "express";
